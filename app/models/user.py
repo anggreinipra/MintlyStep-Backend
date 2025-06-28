@@ -10,3 +10,6 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relasi ke transaksi
+    transactions = db.relationship("Transaction", back_populates="user", cascade="all, delete-orphan")
