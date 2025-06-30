@@ -21,7 +21,17 @@ def create_app():
     # App Config
     app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
     app.config['JWT_SECRET_KEY'] = os.getenv("JWT_SECRET_KEY")
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+
+    raw_url = os.getenv("DATABASE_URL")
+    app.config['SQLALCHEMY_DATABASE_URI'] = raw_url
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    "pool_pre_ping": True,
+    "pool_recycle": 1800,
+    "connect_args": {
+        "sslmode": "require"
+    }
+}
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Init extensions
